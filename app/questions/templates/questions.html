@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="row mt-4 mb-4">
+  <div class="col text-muted">
+    <small><span>Questions</span> <span class="fas fa-chevron-right"></span></small>
+  </div>
+  <div class='col'>
+    <a class="btn btn-primary btn-sm float-right" href="{{ url_for('questions.new') }}">Ask Question</a>
+  </div>
+</div>
+
+{% for question in questions %}
+<div class="card mb-2">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-2">
+        <div>
+          <p class="text-center"><strong class="text-info" style="font-size: 1.5em">{{ question.total_votes }}</strong><br />
+            <small>{% if question.total_votes == 1 %} vote {% else %} votes {% endif %}</small></p>
+        </div>
+        <div>
+          <p class="text-center"><strong class="text-info" style="font-size: 1.5em;">{{ question.answers | list | count }}</strong><br />
+            <small>{% if question.answers | list | count == 1 %} answer {% else %} answers {% endif %}</small></p>
+        </div>
+      </div>
+      <div class="col">
+        <h5 class="card-title">
+          <a href="{{ url_for('questions.show', id=question.id) }}">{{ question.text }}</a>
+        </h5>
+        <p class="text-muted">{{ question.description|truncate(100) }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <span><small>asked by: {% if question.author.username|length %} {{ question.author.username }} {% else %} unknown {% endif %}</small></span>
+    <span class="float-right"><a class="badge badge-info" href="{{ url_for('topics.show', id=question.topic.id) }}">{{ question.topic.name }}</a></span>
+  </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

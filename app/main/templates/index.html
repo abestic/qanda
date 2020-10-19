@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+{% if current_user.username != null %}
+<p>Welcome, {{ current_user.username }}!</p>
+{% else %}
+<p>Welcome!</p>
+{% endif %}
+
+<hr>
+
+<h2>Topics</h2>
+{% for topic in topics %}
+<div>
+  <p>
+    <a href="{{url_for('topics.show', id=topic.id)}}"><strong>{{topic.name }}</strong> - <em>{{ topic.description }}</em></a>
+  </p>
+</div>
+{% endfor %}
+
+{% endblock %}

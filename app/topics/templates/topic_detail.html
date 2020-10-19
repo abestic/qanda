@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <div class="card mb-4 mt-4 bg-light">
+    <div class="card-header">
+      <small>
+        <a class="text-muted" href="{{ url_for('topics.index') }}">Topics</a> 
+        <span class="fas fa-chevron-right"></span>
+      </small>
+    </div>
+    <div class="card-body">
+      <h1 class="card-title">{{ topic.name }}</h1>
+      <div class="card-subtitle text-muted">{{ topic.description }}</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h5 class="mb-3">{{ topic.questions | list | count }} {% if topic.questions | list | count ==1 %} Question {% else %} Questions {% endif %}</h5>
+    </div>
+    <div class="col">
+      <a class=" btn btn-primary btn-sm float-right" href="{{ url_for('questions.new') }}" style="font-size: .75em;">Ask Question</a>
+    </div>
+  </div>
+
+  {% for q in topic.questions %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-2">
+          <div>
+            <p class="text-center"><strong><span class="text-info" style="font-size: 1.5em;">{{ q.total_votes }}</span></strong><br />
+              <small>{% if q.total_votes == 1 %} vote {% else %} votes {% endif %}</small></p>
+          </div>
+          <div>
+            <p class="text-center"><strong><span class="text-info" style="font-size: 1.5em;">{{ q.answers | list | count }}</span></strong><br />
+              <small>{% if q.answers | list | count == 1 %} answer {% else %} answers {% endif %}</small></p>
+          </div>
+        </div>
+        <div class="col">
+          <h5 class="card-title">
+            <a href="{{ url_for('questions.show', id=q.id) }}">{{ q.text }}</a>
+          </h5>
+          <p class="text-muted">{{ q.description|truncate(100) }}</p>
+        </div>
+      </div>  
+    </div>
+    <div class="card-footer">
+      <span><small>asked by: {% if q.author.username|length %} {{ q.author.username }} {% else %} unknown {% endif %}</small></span>
+      <span class="float-right"><a class="badge badge-pill badge-info" href="{{ url_for('topics.show', id=q.topic.id) }}">{{ q.topic.name }}</a></span>
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

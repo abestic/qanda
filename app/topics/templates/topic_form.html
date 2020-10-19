@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+  <div class="card mt-4">
+    <div class="card-header">
+      <span class="fas fa-plus-circle"></span> <strong>Add Topic</strong>
+    </div>
+    <div class="card-body">
+      <form class="form form-horiztonal" action="{{ backroute }}" method="{{ verb }}" role="form" novalidate>
+        {{ form.hidden_tag() }}
+        
+        {{ wtf.form_field(form.name) }}<br>
+        {% for error in form.name.errors %}
+          <div class="alert alert-warning" role="alert">
+            <span class="fas fa-arrow-circle-up"></span> {{ error }}</div>
+        {% endfor %}
+        
+        {{ wtf.form_field(form.description, rows="6") }}<br>
+        {% for error in form.description.errors %}
+          <div class="alert alert-danger" role="alert">
+            <span class="fas fa-arrow-circle-up"></span> {{ error }}</div>
+        {% endfor %}
+        
+        <!-- TODO: make the cancel button dynamically route you to where you came from -->
+        <div>
+          {{ wtf.form_field(form.submit) }} 
+          <a class="btn btn-secondary" href="{{ url_for('topics.index') }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+{% endblock %}

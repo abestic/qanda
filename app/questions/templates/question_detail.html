@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <div class="card mb-4 mt-4">
+    <div class="card-header">
+      <small>
+        <a class="text-muted" href="{{ url_for('topics.index') }}">Topics</a> 
+        <span class="fas fa-chevron-right"></span>
+        <a class="text-muted" href="{{ url_for('topics.show', id=question.topic.id) }}">{{ question.topic.name }}</a>
+        <span class="fas fa-chevron-right"></span>
+      </small>
+      <span class="float-right"><a class="badge badge-pill badge-info" href="{{ url_for('topics.show', id=question.topic.id) }}">{{ question.topic.name }}</a></span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-2">
+          <div class="text-center">
+            <p><strong><span id="question{{ question.id }}votes" class="text-info" style="font-size: 1.5em;">{{ question.total_votes }}</span></strong><br />
+              <small>{% if question.total_votes == 1 %} vote {% else %} votes {% endif %}</small></p>
+            <p>
+              <a href="javascript:vote('{{ question.id }}/vote/up','#question{{ question.id }}votes', '#question{{ question.id }}upvotes', '#question{{ question.id }}downvotes');"><span style="font-size: 1.25em; color: darkgreen;" class="fas fa-thumbs-up mr-1"></span></span></a>
+              <a href="javascript:vote('{{ question.id }}/vote/down','#question{{ question.id }}votes', '#question{{ question.id }}upvotes', '#question{{ question.id }}downvotes');"><span style="font-size: 1.25em; color: darkred;" class="fas fa-thumbs-down ml-1"></span></a>
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <h1 class="card-title h2">{{ question.text }}</h1>
+          <div>{{ question.description }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <small>
+        <span><em>asked by:</em> {% if question.author == None %} unknown {% else %} {{ question.author }} {% endif %}</span>
+        <span class="float-right text-muted">
+          <span id="question{{ question.id }}upvotes">{{ question.up_votes }}</span> <span class="fas fa-thumbs-up"></span>
+          <span id="question{{ question.id}}downvotes">{{ question.down_votes }}</span> <span  class="fas fa-thumbs-down"></span>
+        </span>
+      </small>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h5 class="mb-3">{{ question.answers | list | count }} {% if question.answers | list | count == 1 %} Answer {% else %} Answers {% endif %}</h5>
+    </div>
+    <div class="col">
+      {% if question.answers | list | count == 0 %} {% else %}
+      <a class="btn btn-primary btn-sm float-right" href="#youranswer" style="font-size: .75em;">Respond</a> {% endif %}
+    </div>
+  </div>
+
+  {% for a in question.answers %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-2">
+          <div class="text-center">
+            <p><strong><span id="answer{{ a.id }}votes" class="text-info" style="font-size: 1.5em;">{{ a.total_votes }}</span></strong><br />
+              <small>{% if a.total_votes == 1 %} vote {% else %} votes {% endif %}</small></p>
+            <p>
+              
+              <a href="javascript:vote('/answers/{{ a.id }}/vote/up', '#answer{{ a.id }}votes');"><span style="font-size: 1.25em; color: darkgreen;" class="fas fa-thumbs-up mr-1"></span></a> 
+              <a href="javascript:vote('/answers/{{ a.id }}/vote/down', '#answer{{ a.id }}votes');"><span style="font-size: 1.25em; color: darkred;" class="fas fa-thumbs-down ml-1"></span></a>
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          {{ a.text }}
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <small><em>answered by:</em> {% if a.author.username|length %} {{ a.author.username}} {% else %} unknown {% endif %}</small>
+    </div>
+  </div>
+  {% endfor %}
+  
+  <div class="alert alert-dark mt-4">
+    <span class="fas fa-info-circle align-middle" style="font-size: 1.5em;"></span> 
+    Know someone who can help to answer this question? 
+    Share this <a class="alert-link" href="{{ url_for('questions.show', id=question.id) }}">link</a>!</div>
+
+  {% import 'bootstrap/wtf.html' as wtf %}
+  <div class="row">
+    <div class="col">
+      <h5 class="mt-3 mb-3">Your Answer</h5>
+    </div>
+  </div>
+  
+  <div id="youranswer" class="card" mb-4>
+    <div class="card-body">
+      <form action="/answers/create" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        {% for error in form.hidden_tag.errors %}
+        <div class="alert alert-danger" role="alert">
+          <span class="fas fa-arrow-circle-up"></span> {{ error }}</div>
+        {% endfor %}
+
+        {{ wtf.form_field(form.text, form_type='inline', placeholder='Empart some wisdom...', rows='6') }}
+        {% for error in form.text.errors %}
+        <div class="alert alert-danger" role="alert">
+          <span class="fas fa-arrow-circle-up"></span> {{ error }}</div>
+        {% endfor %}
+
+        <!-- {{ form.question_id() }}
+        {% for error in form.question_id.errors %}
+        <div class="alert alert-danger" role="alert">
+          <span class="fas fa-arrow-circle-up"></span> {{ error }}</div>
+        {% endfor %} -->
+
+        <div>
+          {{ wtf.form_field(form.submit, class="btn btn-primary btn-sm") }}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+  {{super()}}
+  <script>
+    function vote(route, totalVotesElem, upVotesElem, downVotesElem) {
+      $.post(route).done(function(response) {
+        $(totalVotesElem).text(response['total_votes'])
+        $(upVotesElem).text(response['up_votes'])
+        $(downVotesElem).text(response['down_votes'])
+      }).fail(function() {
+        $(votesElem).text("Error");
+      });
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>Answers</h1>
+
+{% for answer in answers %}
+<div><p>{{ answer.id }}: {{ answer.text }}</p></div>
+{% endfor %}
+
+{% endblock %}

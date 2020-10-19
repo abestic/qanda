@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<strong>{{ answer.question.topic.name }} >> {{ answer.question.text }} >></strong>  
+<h1>{{ answer.text }}</h1>
+  <p><a href="{{ url_for('answers.edit', id=answer.id) }}">Edit</a></p>
+  <p>Answer: {{ answer.text }}</p>
+{% endblock %}
