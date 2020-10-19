@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
   questions = db.relationship('Question', backref='author', lazy='dynamic')
   answers = db.relationship('Answer', backref='author', lazy='dynamic')
 
+  # format the object output when called in python interpreter
   def __repr__(self):
     return '<User {}>'.format(self.username)
 
@@ -36,6 +37,7 @@ class Topic(db.Model):
   description = db.Column(db.String(255), index=True)
   questions = db.relationship('Question', backref='topic', lazy='dynamic')
 
+  # format the object output when called in python interpreter
   def __repr__(self):
     return '<Topic {}>'.format(self.name)
 
@@ -52,6 +54,7 @@ class Question(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   answers = db.relationship('Answer', backref='question', lazy='dynamic')
 
+  # format the object output when called in python interpreter
   def __repr__(self):
     return '<Question {}>'.format(self.text)
 
@@ -66,5 +69,6 @@ class Answer(db.Model):
   question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   
+  # format the object output when called in python interpreter
   def __repr__(self):
     return '<Answer {}>'.format(self.text)
