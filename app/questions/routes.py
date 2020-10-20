@@ -62,10 +62,8 @@ def update(id):
 def edit(id):
   question = Question.query.filter_by(id=id).first()
   form = QuestionForm(obj=question) # pre-populate the form with the representation of the current record in the DB
-  #form.topic_id.choices = [(question.topic.id, question.topic.name)]
-  #form.topic_id.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
   form.topic_id.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
-  form.topic_id.default = [(question.topic.id, question.topic.name)]
+  form.topic_id.default = [(question.topic.id, question.topic.name)] # set the default value of the topic dropdown to the question's current topic
   backroute = '/questions/' + id
   verb = 'POST'
   return render_template('question_form.html', title='Edit Question', form=form, backroute=backroute, verb=verb)
