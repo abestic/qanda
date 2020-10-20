@@ -13,4 +13,5 @@ from werkzeug.urls import url_parse
 @bp.route('/index')
 def index():
   popular_questions = Question.query.order_by(Question.total_votes.desc()).limit(10)
-  return render_template('index.html', title='Home', popular_questions=popular_questions)
+  recent_questions = Question.query.order_by(Question.id.desc()).limit(10)
+  return render_template('index.html', title='Home', popular_questions=popular_questions, recent_questions=recent_questions)
