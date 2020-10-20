@@ -32,7 +32,7 @@
     </div>
     <div class="card-footer">
       <small>
-        <span><em>asked by:</em> {% if question.author == None %} unknown {% else %} {{ question.author }} {% endif %}</span>
+        <span><em>asked by:</em> {% if question.author == None %} unknown {% else %} {{ question.author.username }} {% endif %}</span>
         <span class="float-right text-muted">
           <span id="question{{ question.id }}upvotes">{{ question.up_votes }}</span> <span class="fas fa-thumbs-up"></span>
           <span id="question{{ question.id}}downvotes">{{ question.down_votes }}</span> <span  class="fas fa-thumbs-down"></span>

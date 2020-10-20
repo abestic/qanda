@@ -18,7 +18,7 @@ def index():
 def create():
   form = QuestionForm()
   if form.validate_on_submit():
-    question = Question(text=form.text.data, description=form.description.data, topic_id=form.topic_id.data, up_votes=0, down_votes=0, total_votes=0)
+    question = Question(text=form.text.data, description=form.description.data, topic_id=form.topic_id.data, up_votes=0, down_votes=0, total_votes=0, user_id=current_user.id)
     db.session.add(question)
     db.session.commit()
     flash('New Question Added!')

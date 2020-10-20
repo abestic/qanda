@@ -15,7 +15,7 @@ def index():
 @bp.route('/create', methods=['POST'])
 def create():
   form = QAForm()
-  answer = Answer(text=form.text.data, question_id=form.question_id.data, up_votes=0, down_votes=0, total_votes=0)
+  answer = Answer(text=form.text.data, question_id=form.question_id.data, up_votes=0, down_votes=0, total_votes=0, user_id=current_user.id)
   db.session.add(answer)
   db.session.commit()
   flash('Your answer was posted!')
