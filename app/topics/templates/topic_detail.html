@@ -20,7 +20,7 @@
       <h5 class="mb-3">{{ topic.questions | list | count }} {% if topic.questions | list | count ==1 %} Question {% else %} Questions {% endif %}</h5>
     </div>
     <div class="col">
-      <a class=" btn btn-primary btn-sm float-right" href="{{ url_for('questions.new') }}" style="font-size: .75em;">Ask Question</a>
+      <a class=" btn btn-primary btn-sm float-right" href="{{ url_for('questions.new', topic=topic.id) }}" style="font-size: .75em;">Ask Question</a>
     </div>
   </div>
 
