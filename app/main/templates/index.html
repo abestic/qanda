@@ -6,20 +6,22 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md">
-        <h5 class="card-title">
+        
           {% if current_user.username != null %}
-          Welcome, {{ current_user.username }}!
+          <h5 class="card-title">Welcome, {{ current_user.username }}!</h5>
+          <small>
+            <p class="text-muted"><span class="badge badge-secondary badge-pill">{{ my_question_count }}</span> <a class="align-middle" href="#">My Questions</a><br />
+              <span class="badge badge-secondary badge-pill">{{ my_answer_count }}</span> <a class="align-middle" href="#">My Answers</a></p>
+          </small>
           {% else %}
-          Welcome!
+          <h5 class="card-title">Welcome!</h5>
+          <div class="card-subtitle">Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> to contribute.</div>
           {% endif %}
-        </h5>
-        <small>
-          <p class="text-muted"><span class="badge badge-secondary badge-pill">{{ my_question_count }}</span> <a class="align-middle" href="#">My Questions</a><br />
-            <span class="badge badge-secondary badge-pill">{{ my_answer_count }}</span> <a class="align-middle" href="#">My Answers</a></p>
-        </small>
       </div>
       <div class="col-md">
+        {% if current_user.username != null %}
         <a class="btn btn-primary btn-sm float-right" href="{{ url_for('questions.new') }}">Ask Question</a>
+        {% endif %}
       </div>
     </div>
   </div>
