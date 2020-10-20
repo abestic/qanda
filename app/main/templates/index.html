@@ -19,7 +19,7 @@
         <div class="list-group list-group-flush">
           {% for q in popular_questions %}
           <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" href="{{ url_for('questions.show', id=q.id) }}"> 
-            {{ q.text }}<span class="badge badge-secondary badge">{{ q.total_votes }} votes</span>
+            {{ q.text }}<span class="badge badge-secondary">{{ q.total_votes }} votes</span>
           </a>
           {% endfor %}
         </div>
@@ -28,7 +28,16 @@
   </div>
   <div class="col">
     <div class="card">
-
+      <h5 class="card-header">Recent Questions</h5>
+      <div class="card-body">
+        <div class="list-group list-group-flush">
+          {% for q in recent_questions %}
+          <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" href="{{ url_for('questions.show', id=q.id) }}">
+            {{ q.text }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </div>
