@@ -2,12 +2,27 @@
 
 {% block app_content %}
 
-<div class="card mt-4 border-success">
-{% if current_user.username != null %}
-<p>Welcome, {{ current_user.username }}!</p>
-{% else %}
-<p>Welcome!</p>
-{% endif %}
+<div class="card mt-4 bg-light">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md">
+        <h5 class="card-title">
+          {% if current_user.username != null %}
+          Welcome, {{ current_user.username }}!
+          {% else %}
+          Welcome!
+          {% endif %}
+        </h5>
+        <small>
+          <p class="text-muted"><span class="badge badge-secondary badge-pill">0</span> <a class="align-middle" href="#">My Questions</a><br />
+            <span class="badge badge-secondary badge-pill">0</span> <a class="align-middle" href="#">My Answers</a></p>
+        </small>
+      </div>
+      <div class="col-md">
+        <a class="btn btn-primary btn-sm float-right" href="{{ url_for('questions.new') }}">Ask Question</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 
