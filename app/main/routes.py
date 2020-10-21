@@ -1,9 +1,15 @@
 from app import db
 from app.main import bp
+from app.main.forms import SearchForm
 from app.models import User, Topic, Question, Answer
-from flask import current_app, render_template, flash, redirect, url_for, request
+from flask import current_app, render_template, flash, redirect, url_for, request, g
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+
+
+@bp.before_app_request
+def before_request():
+  g.search_form = SearchForm()
 
 
 @bp.route('/')
