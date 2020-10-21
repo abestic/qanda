@@ -24,26 +24,38 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+
         <div class="navbar-nav">
+          <a class="nav-item">
+            <a class="nav-link" href="{{ url_for('topics.index') }}">Topics</a>
+          </a>
+          <a class="nav-item">
+            <a class="nav-link" href="{{ url_for('questions.index') }}">Questions</a>
+          </a>
+        </div>
+
+        <form class="form-inline ml-md-auto">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text bg-white border-right-0 pr-0"><span class="fas fa-search"></span></span></div>
+            <input type="search" class="form-control form-control-sm border-left-0 col-12" placeholder="search..." aria-label="Search">
+          </div>
+        </form>
+      
+        <div class="navbar-nav ml-2">
           {% if current_user.username != null %}
           <a class="nav-item">
-            <a class="nav-link" href=#><span class="fas fa-user-circle"></span> Profile</a>
+            <a class="nav-link" href=#><span class="fas fa-user-circle"></span></a>
           </a>
           {% endif %}
           <a class="nav-item">
             {% if current_user.is_anonymous %}
               <a class="nav-link" href="{{ url_for('auth.login') }}"><span class="fas fa-sign-in-alt"></span> Login</a>
             {% else %}
-              <a class="nav-link" href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span> Logout</a>
+              <a class="nav-link" href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span></a>
             {% endif %}
           </a>
-          <a class="nav-item">
-            <a class="nav-link" href="{{ url_for('topics.index') }}"><span class="fas fa-list"></span> Topics</a>
-          </a>
-          <a class="nav-item">
-            <a class="nav-link" href="{{ url_for('questions.index') }}"><span class="fas fa-question-circle"></span> Questions</a>
-          </a>
         </div>
+
       </div>
     </nav>
   </div>
