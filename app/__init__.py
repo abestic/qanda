@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_fontawesome import FontAwesome
+from elasticsearch import Elasticsearch
 
 
 db = SQLAlchemy()
