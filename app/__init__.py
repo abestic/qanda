@@ -46,6 +46,9 @@ def create_app(config_class=Config):
   from app.answers import bp as answers_bp
   app.register_blueprint(answers_bp, url_prefix='/answers')
 
+  from app.admin import bp as admin_bp
+  app.register_blueprint(admin_bp, url_prefix='/admin')
+
   # logging setup will go here
 
   return app
