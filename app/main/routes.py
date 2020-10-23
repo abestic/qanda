@@ -29,9 +29,9 @@ def search():
   if not g.search_form.validate():
     return redirect(url_for('questions.index')) # if search form is blank, redirect to quesions index view
   page = request.args.get('page', 1, type=int)
-  results, total = Question.search(g.search_form.q.data, page, current_app.config['RESULTS_PER_PAGE'])
+  questions, total = Question.search(g.search_form.q.data, page, current_app.config['RESULTS_PER_PAGE'])
   next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
     if total > page * current_app.config['RESULTS_PER_PAGE'] else None
   prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
     if page > 1 else None
-  return render_template('search.html', title='Search', results=results, total=total, next_url=next_url, prev_url=prev_url)
+  return render_template('search.html', title='Search', questions=questions, total=total, next_url=next_url, prev_url=prev_url)
