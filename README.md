@@ -52,3 +52,20 @@ To initialize, or update, the database with new migrations, run:
 ``` sh
 flask db upgrade
 ```
+
+### Working with Elasticsearch
+
+Quanda uses [Elasticsearch](https://www.elastic.co/elasticsearch) to provide search functionality.  The application will look for a `ELASTICSEARCH_URL` environment variable to connect to an Elasticsearch instance.  If no variable is present, the app will ignore Elasticsearch and continue to function without a search feature (ie: for unit testing).
+
+To work with search in a local environment:
+
+* Download Elasticsearch from docker hub: `docker pull elasticsearch:7.9.2` (you must include a tag)
+* Run the Elasticsearch container locally: `docker run --name elasticsearch -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --rm elasticsearch:7.9.2`
+* You can test that Elasticsearch is running by hitting `http://localhost:9200` in your browser (you will see a json object describing the Elasticsearch instance if it is running properly)
+* Add `ELASTICSEARCH_URL=http://localhost:9200` to a `.flaskenv` file in your local repo
+* Run the app: `flask run`
+
+To add test data to the Elasticsearch index:
+
+* Launch a flask shell: `flask shell`
+* Run the reindex method on the Question model: `Question.reindex()`
