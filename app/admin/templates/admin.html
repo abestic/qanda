@@ -1,200 +1,202 @@
 {% extends "base.html" %}
 
   {% block app_content %}
-  <div class="row mt-4 mb-4">
+
+  <div class="row mt-4 mb-2">
     <div class="col text-muted">
       <small><span>Admin</span> <span class="fas fa-chevron-right"></span></small>
     </div>
   </div>
 
   <nav>
-    <div class="nav nav-pills mb-4 justify-content-center" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-users-tab" data-toggle="tab" href="#admin-users" role="tab" aria-controls="users" aria-selected="true">Users</a>
-      <a class="nav-item nav-link" id="nav-topics-tab" data-toggle="tab" href="#admin-topics" role="tab" aria-controls="topics" aria-selected="false">Topics</a>
-      <a class="nav-item nav-link" id="nav-questions-tab" data-toggle="tab" href="#admin-questions" role="tab" aria-controls="questions" aria-selected="false">Questions</a>
-      <a class="nav-item nav-link" id="nav-answers-tab" data-toggle="tab" href="#admin-answers" role="tab" aria-controls="answers" aria-selected="false">Answers</a>
+    <div class="nav nav-tabs mb-4 justify-content-center">
+      <a class="nav-item nav-link {% if main %}active{% endif %}" href="{{ url_for('admin.panel') }}" aria-controls="main" aria-selected="{% if main %}true({% else %}false{% endif %}">Main</a>
+      <a class="nav-item nav-link {% if users %}active{% endif %}" href="{{ url_for('admin.users', page=1) }}" aria-controls="users" aria-selected="{% if users %}true{% else %}false{% endif %}">Users</a>
+      <a class="nav-item nav-link {% if topics %}active{% endif %}" href="{{ url_for('admin.topics', page=1) }}" aria-controls="topics" aria-selected="{% if topics %}true{% else %}false{% endif %}">Topics</a>
+      <a class="nav-item nav-link {% if questions %}active{% endif %}" href="{{ url_for('admin.questions', page=1) }}" aria-controls="questions" aria-selected="{% if questions %}true{% else %}false{% endif %}">Questions</a>
+      <a class="nav-item nav-link {% if answers %}active{% endif %}" href="{{ url_for('admin.answers', page=1) }}" aria-controls="answers" aria-selected="{% if answers %}true{% else %}false{% endif %}">Answers</a>
     </div>
   </nav>
 
-  <div class="tab-content" id="nav-tabContent">
-    <!-- Users Admin Panel -->
-    <div class="tab-pane fade show active" id="admin-users" role="tabpanel" aria-labelledby="nav-home-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <div class="row">
-            <div class="col"><h5>Users</h5></div>
-            <div class="col"><a class="btn btn-sm btn-outline-success float-right" href="#">New User</a></div> <!-- TODO: Add a route so admin can create a new user -->
-          </div>
-        </div>
-        <div clas="card-body">
-          <small>
-            <table class="table table-sm table-hover">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">id</th>
-                  <th scope="col">username</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for u in users %}
-                <tr>
-                  <td>{{ u.id }}</td>
-                  <td>{{ u.username }}</td>
-                  <td><span class="float-right">
-                    <!-- TODO: Add routes to edit / delete users -->
-                    <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit User"></span></a> 
-                    <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete User"></span></a></span></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </small>
-        </div>
-        <div class="card-footer">
-          <small>
-            <span>Prev | Next</span>
-          </small>
+  
+  <!-- Users Admin Panel -->
+  {% if users %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col"><h5>Users</h5></div>
+          <div class="col"><a class="btn btn-sm btn-primary float-right" href="#">New User</a></div> <!-- TODO: Add a route so admin can create a new user -->
         </div>
       </div>
-    </div>
-    <!-- Topics Admin Panel -->
-    <div class="tab-pane fade" id="admin-topics" role="tabpanel" aria-labelledby="nav-profile-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <div class="row">
-            <div class="col"><h5>Topics</h5></div>
-            <div class="col"><a class="btn btn-sm btn-outline-success float-right" href="{{ url_for('topics.new') }}">New Topic</a></div>
-          </div>
-        </div>
-        <div clas="card-body">
-          <small>
-            <table class="table table-sm table-hover">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">id</th>
-                  <th scope="col">topic</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for t in topics %}
-                <tr>
-                  <td>{{ t.id }}</td>
-                  <td>{{ t.name }}</td>
-                  <td><span class="float-right">
-                    <a href="{{ url_for('topics.edit', id=t.id) }}"><span class="fas fa-edit text-muted" aria-label="Edit Topic"></span></a> 
-                    <a href="{{ url_for('topics.delete', id=t.id) }}"><span class="fas fa-trash text-muted" aria-label="Delete Topic"></span></a></span></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </small>
-        </div>
-        <div class="card-footer">
-          <small>
-            <span>Prev | Next</span>
-          </small>
-        </div>
+      <div clas="card-body">
+        <small>
+          <table class="table table-sm table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">username</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in users %}
+              <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td><span class="float-right">
+                  <!-- TODO: Add routes to edit / delete users -->
+                  <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit User"></span></a> 
+                  <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete User"></span></a></span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </small>
+      </div>
+      <div class="card-footer">
+        <nav class="float-right" aria-label="User Navigation">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="{% if prev_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+            <li class="{% if next_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ next_url }}">Next</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
-    <!-- Questions Admin Panel -->
-    <div class="tab-pane fade" id="admin-questions" role="tabpanel" aria-labelledby="nav-contact-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <div class="row">
-            <div class="col"><h5>Questions</h5></div>
-            <div class="col"><!-- placeholder --></div>
-          </div>
-        </div>
-        <div clas="card-body">
-          <small>
-            <table class="table table-sm table-hover">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">id</th>
-                  <th scope="col">summary</th>
-                  <th scope="col">author</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for q in questions %}
-                <tr>
-                  <td>{{ q.id }}</td>
-                  <td>{{ q.text | truncate(150) }}</td>
-                  <td>{{ q.author.username }}</td>
-                  <td><span class="float-right">
-                    <!-- TODO: Add routes to edit / delete questions -->
-                    <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit Question"></span></a> 
-                    <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete Question"></span></a></span></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </small>
-        </div>
-        <div class="card-footer">
-          <small>
-            <span>Prev | Next</span>
-          </small>
+  {% endif %}
+  <!-- Topics Admin Panel -->
+  {% if topics %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col"><h5>Topics</h5></div>
+          <div class="col"><a class="btn btn-sm btn-primary float-right" href="{{ url_for('topics.new') }}">New Topic</a></div>
         </div>
       </div>
-    </div>
-    <!-- Answers Admin Panel -->  
-    <div class="tab-pane fade" id="admin-answers" role="tabpanel" aria-labelledby="nav-contact-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <div class="row">
-            <div class="col"><h5>Answers</h5></div>
-            <div class="col"><!-- placeholder --></div>
-          </div>
-        </div>
-        <div clas="card-body">
-          <small>
-            <table class="table table-sm table-hover">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">id</th>
-                  <th scope="col">answer</th>
-                  <th scope="col">author</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for a in answers %}
-                <tr>
-                  <td>{{ a.id }}</td>
-                  <td>{{ a.text | truncate(150) }}</td>
-                  <td>{{ a.author.username }}</td>
-                  <td><span class="float-right">
-                    <!-- TODO: Add routes to edit / delete questions -->
-                    <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit Answer"></span></a> 
-                    <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete Answer"></span></a></span></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </small>
-        </div>
-        <div class="card-footer">
-          <small>
-            <span>Prev | Next</span>
-          </small>
-        </div>
+      <div clas="card-body">
+        <small>
+          <table class="table table-sm table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">topic</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for t in topics %}
+              <tr>
+                <td>{{ t.id }}</td>
+                <td>{{ t.name }}</td>
+                <td><span class="float-right">
+                  <a href="{{ url_for('topics.edit', id=t.id) }}"><span class="fas fa-edit text-muted" aria-label="Edit Topic"></span></a> 
+                  <a href="{{ url_for('topics.delete', id=t.id) }}"><span class="fas fa-trash text-muted" aria-label="Delete Topic"></span></a></span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </small>
+      </div>
+      <div class="card-footer">
+        <nav class="float-right" aria-label="Topic Navigation">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="{% if prev_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+            <li class="{% if next_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ next_url }}">Next</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </div>
+  {% endif %}
+  <!-- Questions Admin Panel -->
+  {% if questions %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col"><h5>Questions</h5></div>
+          <div class="col"><!-- placeholder --></div>
+        </div>
+      </div>
+      <div clas="card-body">
+        <small>
+          <table class="table table-sm table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">summary</th>
+                <th scope="col">author</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for q in questions %}
+              <tr>
+                <td>{{ q.id }}</td>
+                <td>{{ q.text | truncate(150) }}</td>
+                <td>{{ q.author.username }}</td>
+                <td><span class="float-right">
+                  <!-- TODO: Add routes to edit / delete questions -->
+                  <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit Question"></span></a> 
+                  <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete Question"></span></a></span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </small>
+      </div>
+      <div class="card-footer">
+        <nav class="float-right" aria-label="Question Navigation">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="{% if prev_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+            <li class="{% if next_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ next_url }}">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  {% endif %}
+  <!-- Answers Admin Panel -->  
+  {% if answers %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col"><h5>Answers</h5></div>
+          <div class="col"><!-- placeholder --></div>
+        </div>
+      </div>
+      <div clas="card-body">
+        <small>
+          <table class="table table-sm table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">answer</th>
+                <th scope="col">author</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a in answers %}
+              <tr>
+                <td>{{ a.id }}</td>
+                <td>{{ a.text | truncate(150) }}</td>
+                <td>{{ a.author.username }}</td>
+                <td><span class="float-right">
+                  <!-- TODO: Add routes to edit / delete questions -->
+                  <a href="#"><span class="fas fa-edit text-muted" aria-label="Edit Answer"></span></a> 
+                  <a href="#"><span class="fas fa-trash text-muted" aria-label="Delete Answer"></span></a></span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </small>
+      </div>
+      <div class="card-footer">
+        <nav class="float-right" aria-label="Answer Navigation">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="{% if prev_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+            <li class="{% if next_url %}page-item{% else %} page-item disabled{% endif %}"><a class="page-link" href="{{ next_url }}">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  {% endif %}
 
-
-  
-
-  
-
-  
-
- 
-
-  
-   
   {% endblock %}
