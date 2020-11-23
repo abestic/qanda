@@ -1,37 +1,46 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<h1 class="mt-4">Register</h1>
-<form action="" method="POST">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.username.label}}
-    {{ form.username(size=32)}}<br>
-    {% for error in form.username.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.email.label}}
-    {{ form.email(size=32)}}<br>
-    {% for error in form.email.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.password.label}}
-    {{ form.password(size=32)}}<br>
-    {% for error in form.password.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.password2.label}}
-    {{ form.password2(size=32)}}<br>
-    {% for error in form.password2.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ form.submit() }}</p>
-</form>
+  <div class="card bg-light w-50 mx-auto mt-5">
+    <div class="card-header">
+      <h4>Register</h4>
+    </div>
+    <div class="card-body">
+      <form class="form" action="" method="POST">
+        {{ form.hidden_tag() }}
+        
+        {{ wtf.form_field(form.username) }}
+        <!-- {{ form.username.label}}
+        {{ form.username(size=32)}}<br> -->
+        {% for error in form.username.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+          
+        {{ wtf.form_field(form.email) }}
+        <!-- {{ form.email.label}}
+        {{ form.email(size=32)}}<br> -->
+        {% for error in form.email.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      
+        {{ wtf.form_field(form.password) }}
+        <!-- {{ form.password.label}}
+        {{ form.password(size=32)}}<br> -->
+        {% for error in form.password.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        
+        {{ wtf.form_field(form.password2) }}
+        <!-- {{ form.password2.label}}
+        {{ form.password2(size=32)}}<br> -->
+        {% for error in form.password2.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        
+        <p>{{ wtf.form_field(form.submit) }}</p>
+      </form>
+    </div>
+    <div class="card-footer"></div>
+  </div>
 {% endblock %}
