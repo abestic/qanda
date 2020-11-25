@@ -13,19 +13,20 @@
 
 
 <div class="row row-cols-1 row-cols-md-4">
+  <!-- <div class="card-deck"> -->
   {% for topic in topics %}
-  <div class="col mb-4">
-  <div class="card h-100">
-    <div class="card-body">
-      <div class="card-title"><a href="{{ url_for('topics.show', id=topic.id) }}"><strong>{{ topic.name }}</strong></a></div>
-      <div class="card-subtitle text-muted">{{ topic.description }}</div>
+  <div class="col-md-3 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="card-title"><a href="{{ url_for('topics.show', id=topic.id) }}"><strong>{{ topic.name }}</strong></a></div>
+        <div class="card-subtitle text-muted">{{ topic.description }}</div>
+      </div>
+      <div class="card-footer">
+        <small>{{ topic.questions | list | count }} {% if topic.questions | list | count == 1 %} Question {% else %} Questions {% endif %}
+          <a class='btn btn-link btn-sm float-right' href="{{ url_for('topics.edit', id=topic.id) }}">edit</a>
+        </small>
+      </div>
     </div>
-    <div class="card-footer">
-      <small>{{ topic.questions | list | count }} {% if topic.questions | list | count == 1 %} Question {% else %} Questions {% endif %}
-        <a class='btn btn-link btn-sm float-right' href="{{ url_for('topics.edit', id=topic.id) }}">edit</a>
-      </small>
-    </div>
-  </div>
   </div>
   {% endfor %}
 </div>
